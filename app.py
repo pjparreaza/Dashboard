@@ -3,17 +3,39 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import plotly.express as px
 
-#@st.cache
-#def load_data():
-#    url= 'coffee_rating.csv'
-#    df = pd.read_csv(url)
-#    df_interin = df.copy()
-#    df_interin = df_interin[['']]
 
-st.write('Hello world')
-x = st.slider('Select a value:', min_value = -5,max_value=5,value=0)
-st.write(x, 'squared is', x * x)
-y = st.slider('Select another value:', min_value = -5,max_value=5,value=0)
-st.write(y, 'Cubit is', y**3)
+def load_data():
+    url= 'coffee_ratings.csv'
+    df = pd.read_csv(url)
+    df_interin = df.copy()
+    df_interin = df_interin[['total_cup_points',
+                             'species',
+                             'country_of_origin',
+                             'variety',
+                             'aftertaste',
+                             'acidity',
+                             'body',
+                             'balance',
+                             'sweetness',
+                             'altitude_mean_meters',
+                             'moisture']]
+    
+    df_interin = df_interin.dropna()
+    df_interin['species'] = pd.Categorical(df_interin['species'])
+    df_interin['country_of_origin'] = pd.Categorical(df_interin['country_of_origin'])
+    df_interin['variety'] = pd.Categorical(df_interin['variety'])
+    df_interin['speciality'] = df_interin['total_cup_points'].apply(lambda x: 'yes' if x>82.43 else 'no')
+    df = df_interin.copy()
+    return df
+
+df_ch =load_data()
+st.write(df_ch.shape[0])  ## Para traer las filas
+
+
+st.title('Coffe Dashboard')
+st.dataframe(df_ch)
+#st.write(x, 'squared is', x * x)
+#y = st.slider('Select another value:', min_value = -5,max_value=5,value=0)
+#st.write(y, 'Cubit is', y**3)
 
 # cargar csv
