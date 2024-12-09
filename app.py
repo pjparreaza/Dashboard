@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import seaborn as sns
 import matplotlib.pyplot as plt
 import plotly.express as px
 
@@ -14,6 +15,7 @@ def load_data():
                              'variety',
                              'aftertaste',
                              'acidity',
+                             'aroma',
                              'body',
                              'balance',
                              'sweetness',
@@ -25,6 +27,7 @@ def load_data():
     df_interin['country_of_origin'] = pd.Categorical(df_interin['country_of_origin'])
     df_interin['variety'] = pd.Categorical(df_interin['variety'])
     df_interin['speciality'] = df_interin['total_cup_points'].apply(lambda x: 'yes' if x>82.43 else 'no')
+    df_interin['speciality'] = pd.Categorical(df_interin['speciality'])
     df = df_interin.copy()
     return df
 
@@ -39,3 +42,9 @@ st.dataframe(df_ch)
 #st.write(y, 'Cubit is', y**3)
 
 # cargar csv
+
+fig1 = px.histogram(df_ch,x='aroma')
+st.plotly_chart(fig1)
+
+fig2 = sns.pairplot(data=df_ch.select_dtypes('number'), hue ='speciality')
+st.pyplot(fig2.fig)
