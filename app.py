@@ -21,6 +21,8 @@ def load_data():
                              'sweetness',
                              'altitude_mean_meters',
                              'moisture']]
+
+    
     
     df_interin = df_interin.dropna()
     df_interin['species'] = pd.Categorical(df_interin['species'])
@@ -47,4 +49,4 @@ fig1 = px.histogram(df_ch,x='aroma')
 st.plotly_chart(fig1)
 
 fig2 = sns.pairplot(data=df_ch.select_dtypes('number'), hue ='speciality')
-st.pyplot(fig2.fig)
+st.pyplot(fig2)
