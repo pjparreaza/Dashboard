@@ -48,5 +48,5 @@ st.dataframe(df_ch)
 fig1 = px.histogram(df_ch,x='aroma')
 st.plotly_chart(fig1)
 
-fig2 = sns.pairplot(data=df_ch.select_dtypes('number'), hue ='speciality')
+fig2 = sns.pairplot(data=df_ch.drop(['species','country_of_origin','variety'],axis=1), hue ='speciality')
 st.pyplot(fig2)
